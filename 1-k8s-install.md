@@ -96,6 +96,7 @@ There are some options to init a cluster on local:
     - You can check vagrant/master/Vagrantfile and vagrant/init-master-cluster.
     - Ssh into master and run this command to get join command for workers
     ```sh
+    ssh root@192.162.60.10 # password: 123, check in Vagrantfiles
     kubeadm token create --print-join-command
     # copy the output command to clipboard
     ```
