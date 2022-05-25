@@ -1,0 +1,39 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+# Install virtual box centos/7, IP address and hostname, ram + cpus
+Vagrant.configure("2") do |config|
+
+
+config.vm.box = "centos/7"
+config.vm.network "private_network", ip: "192.168.56.11"
+config.vm.hostname = "worker1"
+config.disksize.size = '10GB'
+
+config.vm.provider "virtualbox" do |vb|
+vb.name = "worker1"
+vb.cpus = 1
+vb.memory = "1024"
+end
+
+
+# Install docker + kubernetes in machine
+config.vm.provision "shell", path: "../install-docker-kube.sh"
+
+
+
+config.vm.provision "shell", inline: <<SHELL
+# Setup password and enable ssh
+echo "123" | passwd --stdin root
+sed -i 's/^PasswordAuthentication no/PasswordAuthentication yes/' /etc/ssh/sshd_config
+systemctl reload sshd
+# Add host in cluster to /etc/hosts
+cat >>/etc/hosts<<EOF
+192.168.56.10 master
+192.168.56.11 worker1
+192.168.56.12 worker2
+EOF
+SHELL
+
+
+end
