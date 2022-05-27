@@ -19,6 +19,7 @@
       - api-server: provide apis
       - scheduler: periodically check tasks and do tasks
       - controller-manager: periodically check status of workers and adjust them to expected status
+      - etcd: key-value Database to save info of the cluster
 
 - Simple flow to create a new pod
   ![](./images/k8s-simple-flow-create-pod.png)
